@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSeparator } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"form">) {
   const router = useRouter();
@@ -77,7 +78,8 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"form">)
         {/* Submit */}
         <Field>
           <Button type="submit" disabled={loading}>
-            {loading ? "Logging in..." : "Login"}
+          
+            {loading ? <LoadingSpinner size={5} /> : "Login"}
           </Button>
         </Field>
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { TutorCard } from "@/components/card/tutorCard";
+import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { tutorService } from "@/services/tutor.service";
 import { useEffect, useState } from "react";
 
@@ -46,7 +47,8 @@ export default function FeaturedTutors() {
   if (loading) {
     return (
       <div className="py-20 text-center text-muted-foreground">
-        Loading featured tutors...
+       
+        <LoadingSpinner size={12} text=" Loading featured tutors..."></LoadingSpinner>
       </div>
     );
   }
