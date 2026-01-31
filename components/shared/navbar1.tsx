@@ -33,7 +33,7 @@ export const Navbar = () => {
           <Link href="/">Home</Link>
           <Link href="/tutors">Tutors</Link>
           <Link href="/categories">Categories</Link>
-          <Link href="/blog">Blog</Link>
+        
 
           {/* User Authentication */}
           {!user && (

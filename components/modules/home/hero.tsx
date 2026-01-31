@@ -53,7 +53,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative w-full h-[80vh] overflow-hidden rounded-b-2xl">
+    <section className="relative w-full h-[80vh] overflow-hidden rounded-b-1xl ">
       {/* Slides */}
       <div
         className="flex h-full transition-transform duration-700 ease-in-out"

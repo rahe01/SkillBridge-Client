@@ -15,7 +15,7 @@ export const tutorService = {
   // --------------------
   // GET ALL TUTORS (with filters)
   // --------------------
-  getTutors: async function (
+  async getTutors(
     params?: GetTutorsParams,
     options?: ServiceOptions
   ) {
@@ -32,30 +32,64 @@ export const tutorService = {
 
       const config: RequestInit = {};
       if (options?.cache) config.cache = options.cache;
-      if (options?.revalidate) config.next = { revalidate: options.revalidate };
+      if (options?.revalidate)
+        config.next = { revalidate: options.revalidate };
 
       const res = await fetch(url.toString(), config);
       if (!res.ok) throw new Error("Failed to fetch tutors");
 
       const data = await res.json();
       return { data, error: null };
-    } catch (err) {
-      return { data: null, error: { message: "Something Went Wrong" } };
+    } catch (error) {
+      return {
+        data: null,
+        error: { message: "Something went wrong while fetching tutors" },
+      };
     }
   },
 
   // --------------------
   // GET TUTOR BY ID
   // --------------------
-  getTutorById: async function (id: string) {
+  async getTutorById(id: string) {
     try {
-      const res = await fetch(`${API_URL}/tutor/${id}`);
+      const res = await fetch(`${API_URL}/tutor/${id}`, {
+        cache: "no-store",
+      });
+
       if (!res.ok) throw new Error("Failed to fetch tutor");
 
       const data = await res.json();
       return { data, error: null };
-    } catch (err) {
-      return { data: null, error: { message: "Something Went Wrong" } };
+    } catch (error) {
+      return {
+        data: null,
+        error: { message: "Something went wrong while fetching tutor" },
+      };
+    }
+  },
+
+  // --------------------
+  // GET FEATURED TUTORS
+  // --------------------
+  async getFeaturedTutors(options?: ServiceOptions) {
+    try {
+      const config: RequestInit = {};
+      if (options?.cache) config.cache = options.cache;
+      if (options?.revalidate)
+        config.next = { revalidate: options.revalidate };
+
+      const res = await fetch(`${API_URL}/tutor/featured`, config);
+      if (!res.ok) throw new Error("Failed to fetch featured tutors");
+
+      const data = await res.json();
+      console.log(data);
+      return { data, error: null };
+    } catch (error) {
+      return {
+        data: null,
+        error: { message: "Something went wrong while fetching featured tutors" },
+      };
     }
   },
 };
