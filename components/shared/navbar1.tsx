@@ -21,7 +21,7 @@ export const Navbar = () => {
   }, []);
 
   return (
-    <header className="border-b">
+    <header className="border-b px-5">
       <div className="container flex h-16 items-center justify-between">
         {/* Logo */}
         <Link href="/" className="text-xl font-bold">
