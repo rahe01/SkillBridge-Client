@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,62 +10,99 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import Link from "next/link";
 
-interface NavbarProps {
-  user?: {
-    role: "STUDENT" | "TUTOR" | "ADMIN";
-  } | null;
-}
+export const Navbar = () => {
+  const [user, setUser] = useState<{ role: "STUDENT" | "TUTOR" | "ADMIN" } | null>(null);
 
-export const Navbar = ({ user }: NavbarProps) => {
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) setUser(JSON.parse(storedUser));
+  }, []);
+
   return (
     <header className="border-b">
       <div className="container flex h-16 items-center justify-between">
         {/* Logo */}
-        <a href="/" className="text-xl font-bold">
+        <Link href="/" className="text-xl font-bold">
           SkillBridge 🎓
-        </a>
+        </Link>
 
         {/* Desktop Menu */}
         <nav className="hidden lg:flex items-center gap-6">
-          <a href="/" className="nav-link">Home</a>
-          <a href="/tutors" className="nav-link">Tutors</a>
-          <a href="/categories" className="nav-link">Categories</a>
+          <Link href="/">Home</Link>
+          <Link href="/tutors">Tutors</Link>
+          <Link href="/categories">Categories</Link>
+          <Link href="/blog">Blog</Link>
 
+          {/* User Authentication */}
           {!user && (
             <>
-              <a href="/login" className="nav-link">Login</a>
+              <Link href="/login">Login</Link>
               <Button asChild>
-                <a href="/register">Register</a>
+                <Link href="/register">Register</Link>
               </Button>
             </>
           )}
 
+          {/* Student Menu */}
           {user?.role === "STUDENT" && (
             <>
-              <a href="/dashboard" className="nav-link">Dashboard</a>
-              <a href="/dashboard/bookings" className="nav-link">My Bookings</a>
-              <a href="/dashboard/profile" className="nav-link">Profile</a>
-              <Button variant="outline">Logout</Button>
+              <Link href="/dashboard">Dashboard</Link>
+              <Link href="/dashboard/bookings">My Bookings</Link>
+              <Link href="/dashboard/profile">Profile</Link>
+              <Button
+                variant="outline"
+                 className="bg-red-500"
+                onClick={() => {
+                  localStorage.clear();
+                  setUser(null);
+                  location.href = "/login"; // Logout redirect
+                }}
+              >
+                Logout
+              </Button>
             </>
           )}
 
+          {/* Tutor Menu */}
           {user?.role === "TUTOR" && (
             <>
-              <a href="/tutor/dashboard" className="nav-link">Dashboard</a>
-              <a href="/tutor/availability" className="nav-link">Availability</a>
-              <a href="/tutor/profile" className="nav-link">Profile</a>
-              <Button variant="outline">Logout</Button>
+              <Link href="/tutor-dashboard">Dashboard</Link>
+              <Link href="/tutor/availability">Availability</Link>
+              <Link href="/tutor/profile">Profile</Link>
+              <Button
+                variant="outline"
+                 className="bg-red-500"
+                onClick={() => {
+                  localStorage.clear();
+                  setUser(null);
+                  location.href = "/login";
+                }}
+              >
+                Logout
+              </Button>
             </>
           )}
 
+          {/* Admin Menu */}
           {user?.role === "ADMIN" && (
             <>
-              <a href="/admin" className="nav-link">Admin</a>
-              <a href="/admin/users" className="nav-link">Users</a>
-              <a href="/admin/bookings" className="nav-link">Bookings</a>
-              <a href="/admin/categories" className="nav-link">Categories</a>
-              <Button variant="destructive">Logout</Button>
+              <Link href="/admin">Admin</Link>
+              <Link href="/admin/users">Users</Link>
+              <Link href="/admin/bookings">Bookings</Link>
+              <Link href="/admin/categories">Categories</Link>
+              <Button
+                variant="destructive"
+                className="bg-red-500"
+                onClick={() => {
+                  localStorage.clear();
+                  setUser(null);
+                  location.href = "/login";
+                }}
+              >
+                Logout
+              </Button>
             </>
           )}
         </nav>
@@ -80,44 +118,71 @@ export const Navbar = ({ user }: NavbarProps) => {
             <SheetHeader>
               <SheetTitle>SkillBridge 🎓</SheetTitle>
             </SheetHeader>
-
             <div className="mt-6 flex flex-col gap-4">
-              <a href="/">Home</a>
-              <a href="/tutors">Tutors</a>
-              <a href="/categories">Categories</a>
+              <Link href="/">Home</Link>
+              <Link href="/tutors">Tutors</Link>
+              <Link href="/categories">Categories</Link>
+              <Link href="/blog">Blog</Link>
 
               {!user && (
                 <>
-                  <a href="/login">Login</a>
-                  <a href="/register">Register</a>
+                  <Link href="/login">Login</Link>
+                  <Link href="/register">Register</Link>
                 </>
               )}
 
               {user?.role === "STUDENT" && (
                 <>
-                  <a href="/dashboard">Dashboard</a>
-                  <a href="/dashboard/bookings">My Bookings</a>
-                  <a href="/dashboard/profile">Profile</a>
-                  <Button variant="outline">Logout</Button>
+                  <Link href="/dashboard">Dashboard</Link>
+                  <Link href="/dashboard/bookings">My Bookings</Link>
+                  <Link href="/dashboard/profile">Profile</Link>
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      localStorage.clear();
+                      setUser(null);
+                      location.href = "/login";
+                    }}
+                  >
+                    Logout
+                  </Button>
                 </>
               )}
 
               {user?.role === "TUTOR" && (
                 <>
-                  <a href="/tutor/dashboard">Dashboard</a>
-                  <a href="/tutor/availability">Availability</a>
-                  <a href="/tutor/profile">Profile</a>
-                  <Button variant="outline">Logout</Button>
+                  <Link href="/tutor/dashboard">Dashboard</Link>
+                  <Link href="/tutor/availability">Availability</Link>
+                  <Link href="/tutor/profile">Profile</Link>
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      localStorage.clear();
+                      setUser(null);
+                      location.href = "/login";
+                    }}
+                  >
+                    Logout
+                  </Button>
                 </>
               )}
 
               {user?.role === "ADMIN" && (
                 <>
-                  <a href="/admin">Admin</a>
-                  <a href="/admin/users">Users</a>
-                  <a href="/admin/bookings">Bookings</a>
-                  <a href="/admin/categories">Categories</a>
-                  <Button variant="destructive">Logout</Button>
+                  <Link href="/admin">Admin</Link>
+                  <Link href="/admin/users">Users</Link>
+                  <Link href="/admin/bookings">Bookings</Link>
+                  <Link href="/admin/categories">Categories</Link>
+                  <Button
+                    variant="destructive"
+                    onClick={() => {
+                      localStorage.clear();
+                      setUser(null);
+                      location.href = "/login";
+                    }}
+                  >
+                    Logout
+                  </Button>
                 </>
               )}
             </div>
