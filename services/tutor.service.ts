@@ -9,16 +9,12 @@ interface GetTutorsParams {
   categoryId?: string;
   minPrice?: number;
   maxPrice?: number;
+  rating?: number; 
 }
 
 export const tutorService = {
-  // --------------------
-  // GET ALL TUTORS (with filters)
-  // --------------------
-  async getTutors(
-    params?: GetTutorsParams,
-    options?: ServiceOptions
-  ) {
+  
+  async getTutors(params?: GetTutorsParams, options?: ServiceOptions) {
     try {
       const url = new URL(`${API_URL}/tutor`);
 
@@ -32,64 +28,45 @@ export const tutorService = {
 
       const config: RequestInit = {};
       if (options?.cache) config.cache = options.cache;
-      if (options?.revalidate)
-        config.next = { revalidate: options.revalidate };
+      if (options?.revalidate) config.next = { revalidate: options.revalidate };
 
       const res = await fetch(url.toString(), config);
       if (!res.ok) throw new Error("Failed to fetch tutors");
 
       const data = await res.json();
+   console.log(data);
       return { data, error: null };
-    } catch (error) {
-      return {
-        data: null,
-        error: { message: "Something went wrong while fetching tutors" },
-      };
+      
+    } catch (error: any) {
+      return { data: null, error: { message: error.message || "Something went wrong while fetching tutors" } };
     }
   },
 
-  // --------------------
   // GET TUTOR BY ID
-  // --------------------
   async getTutorById(id: string) {
     try {
-      const res = await fetch(`${API_URL}/tutor/${id}`, {
-        cache: "no-store",
-      });
-
+      const res = await fetch(`${API_URL}/tutor/${id}`, { cache: "no-store" });
       if (!res.ok) throw new Error("Failed to fetch tutor");
-
       const data = await res.json();
       return { data, error: null };
-    } catch (error) {
-      return {
-        data: null,
-        error: { message: "Something went wrong while fetching tutor" },
-      };
+    } catch (error: any) {
+      return { data: null, error: { message: error.message || "Something went wrong while fetching tutor" } };
     }
   },
 
-  // --------------------
   // GET FEATURED TUTORS
-  // --------------------
   async getFeaturedTutors(options?: ServiceOptions) {
     try {
       const config: RequestInit = {};
       if (options?.cache) config.cache = options.cache;
-      if (options?.revalidate)
-        config.next = { revalidate: options.revalidate };
+      if (options?.revalidate) config.next = { revalidate: options.revalidate };
 
       const res = await fetch(`${API_URL}/tutor/featured`, config);
       if (!res.ok) throw new Error("Failed to fetch featured tutors");
-
       const data = await res.json();
-      console.log(data);
       return { data, error: null };
-    } catch (error) {
-      return {
-        data: null,
-        error: { message: "Something went wrong while fetching featured tutors" },
-      };
+    } catch (error: any) {
+      return { data: null, error: { message: error.message || "Something went wrong while fetching featured tutors" } };
     }
   },
 };
