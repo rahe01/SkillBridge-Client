@@ -49,8 +49,7 @@ export const Navbar = () => {
           {user?.role === "STUDENT" && (
             <>
               <Link href="/dashboard">Dashboard</Link>
-              <Link href="/dashboard/bookings">My Bookings</Link>
-              <Link href="/dashboard/profile">Profile</Link>
+             
               <Button
                 variant="outline"
                  className="bg-red-500"
@@ -68,9 +67,8 @@ export const Navbar = () => {
           {/* Tutor Menu */}
           {user?.role === "TUTOR" && (
             <>
-              <Link href="/tutor-dashboard">Dashboard</Link>
-              <Link href="/tutor/availability">Availability</Link>
-              <Link href="/tutor/profile">Profile</Link>
+              <Link href="/tutor/dashboard">Dashboard</Link>
+            
               <Button
                 variant="outline"
                  className="bg-red-500"
@@ -89,9 +87,7 @@ export const Navbar = () => {
           {user?.role === "ADMIN" && (
             <>
               <Link href="/admin">Admin</Link>
-              <Link href="/admin/users">Users</Link>
-              <Link href="/admin/bookings">Bookings</Link>
-              <Link href="/admin/categories">Categories</Link>
+             
               <Button
                 variant="destructive"
                 className="bg-red-500"
@@ -134,8 +130,7 @@ export const Navbar = () => {
               {user?.role === "STUDENT" && (
                 <>
                   <Link href="/dashboard">Dashboard</Link>
-                  <Link href="/dashboard/bookings">My Bookings</Link>
-                  <Link href="/dashboard/profile">Profile</Link>
+                 
                   <Button
                     variant="outline"
                     onClick={() => {
@@ -152,8 +147,7 @@ export const Navbar = () => {
               {user?.role === "TUTOR" && (
                 <>
                   <Link href="/tutor/dashboard">Dashboard</Link>
-                  <Link href="/tutor/availability">Availability</Link>
-                  <Link href="/tutor/profile">Profile</Link>
+                 
                   <Button
                     variant="outline"
                     onClick={() => {
@@ -170,9 +164,7 @@ export const Navbar = () => {
               {user?.role === "ADMIN" && (
                 <>
                   <Link href="/admin">Admin</Link>
-                  <Link href="/admin/users">Users</Link>
-                  <Link href="/admin/bookings">Bookings</Link>
-                  <Link href="/admin/categories">Categories</Link>
+                 
                   <Button
                     variant="destructive"
                     onClick={() => {

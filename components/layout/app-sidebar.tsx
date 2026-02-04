@@ -1,7 +1,7 @@
 "use client";
-
 import * as React from "react";
 import Link from "next/link";
+
 import {
   Sidebar,
   SidebarContent,
@@ -14,30 +14,31 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 
-
-import { tutorRoutes } from "@/routes/tutorRoutes";
-import { studentRoutes } from "@/routes/studentRoutes";
+import { Route } from "@/types/routes.type";
 import { adminRoutes } from "@/routes/adminRoutes";
-
-type Role = "admin" | "tutor" | "student";
+import { studentRoutes } from "@/routes/studentRoutes";
+import { tutorRoutes } from "@/routes/tutorRoutes";
 
 export function AppSidebar({
   user,
   ...props
 }: {
-  user: { role: Role };
+  user: { role: string } & React.ComponentProps<typeof Sidebar>;
 }) {
-  let routes : any[] = [];
+  let routes: Route[] = [];
 
-  switch (user.role) {
+  // normalize role to lowercase
+  const role = user.role.toLowerCase();
+
+  switch (role) {
     case "admin":
       routes = adminRoutes;
       break;
-    case "tutor":
-      routes = tutorRoutes;
-      break;
     case "student":
       routes = studentRoutes;
+      break;
+    case "tutor":
+      routes = tutorRoutes;
       break;
     default:
       routes = [];
@@ -52,7 +53,7 @@ export function AppSidebar({
             <SidebarGroupLabel>{group.title}</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {group.items.map((item:any) => (
+                {group.items.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild>
                       <Link href={item.url}>{item.title}</Link>
