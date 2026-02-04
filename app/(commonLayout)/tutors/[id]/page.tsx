@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import { tutorService } from "@/services/tutor.service";
+import { bookingService } from "@/services/booking.service";
 
 const formatDate = (date: string) =>
   new Date(date).toLocaleDateString("en-GB", {
@@ -15,9 +16,11 @@ const formatDate = (date: string) =>
 export default function TutorDetailPage() {
   const params = useParams<{ id: string }>();
   const tutorId = params?.id;
+  const router = useRouter();
 
   const [tutor, setTutor] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [bookingLoading, setBookingLoading] = useState<string | null>(null);
 
   useEffect(() => {
     if (!tutorId) return;
@@ -35,6 +38,32 @@ export default function TutorDetailPage() {
 
     fetchTutor();
   }, [tutorId]);
+
+  const handleBooking = async (slot: any) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("Please login first to book a slot.");
+      return;
+    }
+
+    setBookingLoading(slot.id);
+    try {
+      const payload = {
+        tutorProfileId: tutor.id,
+        date: slot.date.split("T")[0],
+        startTime: slot.startTime,
+        endTime: slot.endTime,
+      };
+
+      await bookingService.createBooking(token, payload);
+      alert("Booking successful!");
+      router.push("/dashboard/bookings");
+    } catch (err: any) {
+      alert(err.response?.data?.message || err.message);
+    } finally {
+      setBookingLoading(null);
+    }
+  };
 
   /* ================= Loading ================= */
   if (loading) {
@@ -123,8 +152,16 @@ export default function TutorDetailPage() {
                     Booked
                   </span>
                 ) : (
-                  <button className="mt-2 px-3 py-1 bg-green-600 text-white rounded-full">
-                    Book Now
+                  <button
+                    disabled={bookingLoading === slot.id}
+                    className={`mt-2 px-3 py-1 rounded-full ${
+                      bookingLoading === slot.id
+                        ? "bg-gray-400 text-white"
+                        : "bg-green-600 text-white"
+                    }`}
+                    onClick={() => handleBooking(slot)}
+                  >
+                    {bookingLoading === slot.id ? "Booking..." : "Book Now"}
                   </button>
                 )}
               </div>
