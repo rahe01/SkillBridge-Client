@@ -1,4 +1,4 @@
-import SetAvailabilityPage from "@/components/modules/tutor/setAvailability";
+import TutorBookedSessionsPage from "@/components/modules/tutor/tutorBookingSession";
 
 export default function DashboardPage() {
   return (
@@ -7,7 +7,7 @@ export default function DashboardPage() {
         Welcome to SkillBridge 🎓
       </h1>
       <p>Connect with expert tutors, learn anything.</p>
-      <SetAvailabilityPage></SetAvailabilityPage>
+      <TutorBookedSessionsPage></TutorBookedSessionsPage>
     </div>
   );
 }

@@ -9,10 +9,14 @@ export const categoryService = {
 
       if (!res.ok) throw new Error("Failed to fetch categories");
 
-      const data = await res.json();
-      return { data, error: null };
-    } catch (err) {
-      return { data: null, error: { message: "Something went wrong" } };
+      const json = await res.json();
+
+      
+      const categories = json?.data ?? [];
+
+      return { data: categories, error: null };
+    } catch (err: any) {
+      return { data: [], error: { message: err.message || "Something went wrong" } };
     }
   },
 };

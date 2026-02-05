@@ -21,7 +21,20 @@ export default function TutorDetailPage() {
   const [tutor, setTutor] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [bookingLoading, setBookingLoading] = useState<string | null>(null);
+  const [userRole, setUserRole] = useState<string | null>(null);
 
+  // Fetch logged-in user role from localStorage
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const user = localStorage.getItem("user");
+      if (user) {
+        const parsedUser = JSON.parse(user);
+        setUserRole(parsedUser.role); // "TUTOR", "ADMIN" or "USER"
+      }
+    }
+  }, []);
+
+  // Fetch tutor details
   useEffect(() => {
     if (!tutorId) return;
 
@@ -65,7 +78,6 @@ export default function TutorDetailPage() {
     }
   };
 
-  /* ================= Loading ================= */
   if (loading) {
     return (
       <p className="text-center mt-20 text-muted-foreground">
@@ -74,7 +86,6 @@ export default function TutorDetailPage() {
     );
   }
 
-  /* ================= Not Found ================= */
   if (!tutor) {
     return (
       <p className="text-center mt-20 text-muted-foreground">
@@ -153,10 +164,10 @@ export default function TutorDetailPage() {
                   </span>
                 ) : (
                   <button
-                    disabled={bookingLoading === slot.id}
+                    disabled={bookingLoading === slot.id || userRole === "TUTOR" || userRole === "ADMIN"}
                     className={`mt-2 px-3 py-1 rounded-full ${
-                      bookingLoading === slot.id
-                        ? "bg-gray-400 text-white"
+                      bookingLoading === slot.id || userRole === "TUTOR" || userRole === "ADMIN"
+                        ? "bg-gray-400 text-white cursor-not-allowed"
                         : "bg-green-600 text-white"
                     }`}
                     onClick={() => handleBooking(slot)}

@@ -35,8 +35,8 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"form">)
         localStorage.setItem("user", JSON.stringify(res.data.data.user));
 
         // Redirect based on role
-        if (res.data.data.user.role === "TUTOR") router.push("/tutor-dashboard");
-         else if (res.data.data.user.role === "ADMIN") router.push("/admin-dashboard");
+        if (res.data.data.user.role === "TUTOR") router.push("/tutor/dashboard");
+         else if (res.data.data.user.role === "ADMIN") router.push("/admin/dashboard");
         else router.push("/dashboard");
       } else {
         toast.error(res.data.message || "Login failed");

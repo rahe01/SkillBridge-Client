@@ -34,15 +34,19 @@ export default function TutorsPage() {
   // -----------------------
   // Fetch Categories
   // -----------------------
-  useEffect(() => {
-    const fetchCategories = async () => {
-      const { data } = await categoryService.getCategories();
-      if (data?.data) {
-        setCategories(data.data);
+useEffect(() => {
+  const fetchCategories = async () => {
+    try {
+      const res = await categoryService.getCategories();
+      if (res.data) {
+        setCategories(res.data); 
       }
-    };
-    fetchCategories();
-  }, []);
+    } catch (err) {
+      console.error("Failed to load categories:", err);
+    }
+  };
+  fetchCategories();
+}, []);
 
   // -----------------------
   // Fetch Tutors
