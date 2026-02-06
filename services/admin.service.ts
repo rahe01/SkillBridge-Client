@@ -41,7 +41,34 @@ const updateUserStatus = async (
   return res.data;
 };
 
+export interface IAdminDashboardStats {
+  totalUsers: number;
+  totalStudents: number;
+  totalTutors: number;
+  activeTutors: number;
+  totalBookings: number;
+  totalCategories: number;
+}
+
+
+const getDashboardStats = async () => {
+  const res = await axios.get(
+    `${API_URL}/admin/dashboard-stats`,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Cache-Control": "no-cache",
+        Pragma: "no-cache",
+      },
+    }
+  );
+
+  return res.data.data;
+};
+
+
 export const AdminService = {
   getAllUsers,
   updateUserStatus,
+  getDashboardStats
 };
