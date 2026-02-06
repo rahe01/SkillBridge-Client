@@ -28,20 +28,12 @@ const signupSchema = z
     email: z.string().email("Invalid email"),
     password: z.string().min(8, "Password must be at least 8 characters"),
     confirmPassword: z.string(),
-    bio: z.string().optional(),
-    pricePerHour: z
-      .string()
-      .optional()
-      .refine((val) => !val || !isNaN(Number(val)), "Price must be a number"),
-    experience: z
-      .string()
-      .optional()
-      .refine((val) => !val || !isNaN(Number(val)), "Experience must be a number"),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
+
 
 type SignupFormData = z.infer<typeof signupSchema>;
 
@@ -63,9 +55,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"form">
       email: "",
       password: "",
       confirmPassword: "",
-      bio: "",
-      pricePerHour: "",
-      experience: "",
+      
     },
   });
 
