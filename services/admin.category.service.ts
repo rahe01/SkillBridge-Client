@@ -33,7 +33,7 @@ const createCategory = async (name: string) => {
   const res = await axios.post(
     `${API_URL}/admin/categories`,
     { name },
-    getAuthHeader(),
+    getAuthHeader()
   );
   return res.data;
 };
@@ -42,7 +42,7 @@ const updateCategory = async (id: string, name: string) => {
   const res = await axios.put(
     `${API_URL}/admin/categories/${id}`,
     { name },
-    getAuthHeader(),
+    getAuthHeader()
   );
   return res.data;
 };
@@ -50,10 +50,11 @@ const updateCategory = async (id: string, name: string) => {
 const deleteCategory = async (id: string) => {
   const res = await axios.delete(
     `${API_URL}/admin/categories/${id}`,
-    getAuthHeader(),
+    getAuthHeader()
   );
   return res.data;
 };
+
 
 export const AdminCategoryService = {
   getCategories,
