@@ -78,7 +78,10 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"form">
 
   
 
-      await axios.post("http://localhost:5000/api/auth/register", payload);
+      await axios.post(
+        "https://skill-bridge-server-three.vercel.app/api/auth/register",
+        payload,
+      );
 
      
       toast.success(

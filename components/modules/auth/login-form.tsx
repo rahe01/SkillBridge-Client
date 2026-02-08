@@ -25,7 +25,13 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"form">)
     const password = formData.get("password") as string;
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", { email, password });
+      const res = await axios.post(
+        "https://skill-bridge-server-three.vercel.app/api/auth/login",
+        {
+          email,
+          password,
+        },
+      );
 
       if (res.data.success) {
         toast.success(res.data.message);
